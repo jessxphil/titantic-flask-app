@@ -1,6 +1,3 @@
-# Titantic Prediction App Deployed in Herouku 
-Create a Flask API to Deploy Titanic Prediction Model Using Heroku
-
 # Deploy ML model with Flask to Heroku
 
 Click the button below to quickly clone and deploy into your own Heroku acount.
@@ -25,4 +22,12 @@ response = requests.post(url, json.dumps(data))
 print(response.json())
 ```
 
+# Article
 
+You can read the full article that was published on Towards Data Science
+
+ - **Article**: [Towards Data Science: Create an API to Deploy Machine Learning Models using Flask](https://towardsdatascience.com/create-an-api-to-deploy-machine-learning-models-using-flask-and-heroku-67a011800c50)
+ - **Author**: [Elizabeth Ter Sahakyan](https://towardsdatascience.com/@liztersahakyan)
+
+# Acknowlegements
+Thank you to [Josh Peak](https://github.com/neozenith) who added the button for heroku deployment
