@@ -12,11 +12,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 
 def predict():
-    import pandas as pd
-    from flask import Flask, request, jsonify
-    import pickle
-    from model_pred.py import tween_model
-    
+
     # get data
     data = request.get_json(force=True)
 
