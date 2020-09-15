@@ -1,33 +1,23 @@
-# IMPORTS
 import pandas as pd
 from flask import Flask, jsonify, request
 import pickle
-import flask_monitoringdashboard as dashboard
 
-# LOAD MODEL
+# load model
 model = pickle.load(open('model.pkl','rb'))
 
-# CREATE API ROUTE
+# app
 app = Flask(__name__)
 
-# API ROUTE
+# routes
 @app.route('/', methods=['POST'])
 
-# PREDICTION MODEL
 def predict():
-
-    # We can read the content of the server’s response. 
-    # Response Content¶
     # get data
-    data = request.get_json() # Converts incoming request data from JSON object into Python data   
-    
-    # request.get_json() converts the JSON object into Python data for us. JSON decoder
-    # Let's assign the incoming request data to variables and return them 
-    # by making the following changes to our json-example route.
+    data = request.get_json(force=True)
 
-    # convert json data from dict into dataframe
-    data.update((x, [y]) for x, y in data.items()) # Insert an item to the dict using .update()
-    data_df = pd.DataFrame.from_dict(data)         # Convert dict to dataframe
+    # convert data into dataframe
+    data.update((x, [y]) for x, y in data.items())
+    data_df = pd.DataFrame.from_dict(data)
 
     # predictions
     result = model.predict(data_df)
@@ -38,8 +28,5 @@ def predict():
     # return data
     return jsonify(results=output)
 
-
-
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
-
