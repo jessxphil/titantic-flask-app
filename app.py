@@ -1,34 +1,69 @@
+# import modules
 import pandas as pd
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
 import pickle
+import os, sys
+import numpy as np
+import pandas as pd
+from keras.models import model_from_json
+from keras.models import model_from_yaml
+from pickle import load
+import json
 
-# load model
-model = pickle.load(open('model.pkl','rb'))
+# LOAD MODELS
+# yaml_file = open('model_files/model.yaml', 'rb')  # load YAML and create model         
+# loaded_model_yaml = yaml_file.read() 
+# yaml_file.close()
+# loaded_model = model_from_yaml(loaded_model_yaml) 
+# print("Loaded model from disk w/ YAML")
 
-# app
+# loaded_model.load_weights('model_files/model.h5') # load weights into new model       
+# print("Loaded model from disk w/ HdF5")
+
+# json_file = open('model_files/model.json', 'rb')  # load json and create model
+# loaded_model_json = json_file.read()
+# json_file.close()
+# loaded_model = model_from_json(loaded_model_json)
+# print("Loaded model from disk w/ JSON")
+
+model = pickle.load(open('model.pkl','rb')) # TT
+
+# CREATE API ROUTE
 app = Flask(__name__)
 
-# routes
 @app.route('/', methods=['POST'])
 
+# PREDICTION MODEL
 def predict():
 
-    # get data
-    data = request.get_json(force=True)
+    # Converts incoming request data from JSON object into Python data
+    data = request.get_json(force=False)   # Ignore the mimetype and always try to parse data as JSON.
+    print(type(data), data)
 
-    # convert data into dataframe
-    data.update((x, [y]) for x, y in data.items())
-    data_df = pd.DataFrame.from_dict(data)
+    data = json.loads(data)          # load str into dict to use it
 
-    # predictions
-    result = model.predict(data_df)
+    # Convert Json data to dict then to array to be processed
+    data.update((x, [y]) for x, y in data.items()) # Insert an item to the dict using .update()
+    data_df = pd.DataFrame.from_dict(data)         # Convert dict to dataframe
 
-    # send back to browser
-    output = {'results': int(result[0])}
+    # data_arr = np.array(data_df)                          # Convert data to array
+    # print("Convert sample to array", data_arr)
 
-    # return data
+    # Transform Data from 2D to 3D for CNN 
+    # data_arr = data_arr.reshape(data_arr.shape[0], data_arr.shape[1], 1)
+
+    # Predict using model
+    # yTween = loaded_model.predict(data_arr)
+    yTween = model.predict(data_df)
+    print("Tween prediced values: unscaled , complete.")
+
+    output = {'results': (yTween)} #the curly brackets turn object into dict
+    print(output, type(output))
+
     return jsonify(results=output)
 
-if __name__ == '__main__':
-    app.run(port = 5000, debug=True)
+if __name__ == '__main__': 
+    app.run(port = 3000, debug=True)
+
+
 
