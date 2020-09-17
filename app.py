@@ -28,7 +28,7 @@ def predict():
 
     # send back to browser
     # output = {'results': int(result[0])}
-    output = {'results': int(result)} # Code Works? No
+    output = {'results': int(result)} # Code Works? Yes
     
     # return data
     return jsonify(results=output)
