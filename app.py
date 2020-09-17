@@ -1,11 +1,12 @@
+# IMPORTS
 import pandas as pd
 from flask import Flask, jsonify, request
 import pickle
 
-# load model
+# LOAD MODEL
 model = pickle.load(open('model.pkl','rb'))
 
-# app
+# APP
 app = Flask(__name__)
 
 # routes
@@ -14,6 +15,9 @@ app = Flask(__name__)
 def predict():
     # get data
     data = request.get_json(force=True)
+    print(type(data), data)
+    
+    data = json.loads(data) # Code Works? 
 
     # convert data into dataframe
     data.update((x, [y]) for x, y in data.items())
