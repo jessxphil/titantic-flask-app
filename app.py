@@ -16,7 +16,7 @@ def predict():
     # get data
     data = request.get_json(force=True)
         
-    # data = json.loads(data) # Code Works? No
+    data = json.loads(data) # Code Works? No
 
     # convert data into dataframe
     data.update((x, [y]) for x, y in data.items())
