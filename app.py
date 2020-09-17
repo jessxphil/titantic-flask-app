@@ -17,7 +17,7 @@ def predict():
     data = request.get_json(force=True)
     print(type(data), data)
     
-    data = json.loads(data) # Code Works? 
+    # data = json.loads(data) # Code Works? No
 
     # convert data into dataframe
     data.update((x, [y]) for x, y in data.items())
@@ -27,8 +27,9 @@ def predict():
     result = model.predict(data_df)
 
     # send back to browser
-    output = {'results': int(result[0])}
-
+    # output = {'results': int(result[0])}
+    output = {'results': int(result)} # Code Works? No
+    
     # return data
     return jsonify(results=output)
 
