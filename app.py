@@ -32,6 +32,7 @@ def predict():
     # Convert array to Json 
     output = result.tolist()
     output = json.dumps(result)
+    output = {'results': (output)}
     
     # return data
     return jsonify(results=output)
