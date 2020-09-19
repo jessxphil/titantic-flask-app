@@ -27,7 +27,11 @@ def predict():
 
     # send back to browser
     # output = {'results': int(result[0])}
-    output = {'results': int(result)} # Code Works? Yes
+    # output = {'results': int(result)} # Code Works? Yes
+    
+    # Convert array to Json 
+    output = result.tolist()
+    output = json.dumps(result)
     
     # return data
     return jsonify(results=output)
